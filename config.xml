@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="MICHELLE" version="1.0.0.0">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="MICHELLE" version="0.1">
 
-	<name>New project</name>
+	<name>MICHELLE</name>
 	<description>MICHELLE</description>
-	<author href="http://www.brandup.ro" email="me@nicustanila.ro">Nicu</author>
+	<author>Nicu</author>
 
 	<gap:platforms>
 		<gap:platform name="ios" />
