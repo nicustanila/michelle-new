@@ -12496,6 +12496,306 @@ cr.plugins_.Sprite = function(runtime)
 }());
 ;
 ;
+cr.plugins_.TextBox = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.TextBox.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	var elemTypes = ["text", "password", "email", "number", "tel", "url"];
+	if (navigator.userAgent.indexOf("MSIE 9") > -1)
+	{
+		elemTypes[2] = "text";
+		elemTypes[3] = "text";
+		elemTypes[4] = "text";
+		elemTypes[5] = "text";
+	}
+	instanceProto.onCreate = function()
+	{
+		if (this.runtime.isDomFree)
+		{
+			cr.logexport("[Construct 2] Textbox plugin not supported on this platform - the object will not be created");
+			return;
+		}
+		if (this.properties[7] === 6)	// textarea
+		{
+			this.elem = document.createElement("textarea");
+			jQuery(this.elem).css("resize", "none");
+		}
+		else
+		{
+			this.elem = document.createElement("input");
+			this.elem.type = elemTypes[this.properties[7]];
+		}
+		this.elem.id = this.properties[9];
+		jQuery(this.elem).appendTo(this.runtime.canvasdiv ? this.runtime.canvasdiv : "body");
+		this.elem["autocomplete"] = "off";
+		this.elem.value = this.properties[0];
+		this.elem["placeholder"] = this.properties[1];
+		this.elem.title = this.properties[2];
+		this.elem.disabled = (this.properties[4] === 0);
+		this.elem["readOnly"] = (this.properties[5] === 1);
+		this.elem["spellcheck"] = (this.properties[6] === 1);
+		this.autoFontSize = (this.properties[8] !== 0);
+		this.element_hidden = false;
+		if (this.properties[3] === 0)
+		{
+			jQuery(this.elem).hide();
+			this.visible = false;
+			this.element_hidden = true;
+		}
+		var onchangetrigger = (function (self) {
+			return function() {
+				self.runtime.trigger(cr.plugins_.TextBox.prototype.cnds.OnTextChanged, self);
+			};
+		})(this);
+		this.elem["oninput"] = onchangetrigger;
+		if (navigator.userAgent.indexOf("MSIE") !== -1)
+			this.elem["oncut"] = onchangetrigger;
+		this.elem.onclick = (function (self) {
+			return function(e) {
+				e.stopPropagation();
+				self.runtime.trigger(cr.plugins_.TextBox.prototype.cnds.OnClicked, self);
+			};
+		})(this);
+		this.elem.ondblclick = (function (self) {
+			return function(e) {
+				e.stopPropagation();
+				self.runtime.trigger(cr.plugins_.TextBox.prototype.cnds.OnDoubleClicked, self);
+			};
+		})(this);
+		this.elem.addEventListener("touchstart", function (e) {
+			e.stopPropagation();
+		}, false);
+		this.elem.addEventListener("touchmove", function (e) {
+			e.stopPropagation();
+		}, false);
+		this.elem.addEventListener("touchend", function (e) {
+			e.stopPropagation();
+		}, false);
+		jQuery(this.elem).mousedown(function (e) {
+			e.stopPropagation();
+		});
+		jQuery(this.elem).mouseup(function (e) {
+			e.stopPropagation();
+		});
+		jQuery(this.elem).keydown(function (e) {
+			if (e.which !== 13 && e.which != 27)	// allow enter and escape
+				e.stopPropagation();
+		});
+		jQuery(this.elem).keyup(function (e) {
+			if (e.which !== 13 && e.which != 27)	// allow enter and escape
+				e.stopPropagation();
+		});
+		this.lastLeft = 0;
+		this.lastTop = 0;
+		this.lastRight = 0;
+		this.lastBottom = 0;
+		this.lastWinWidth = 0;
+		this.lastWinHeight = 0;
+		this.updatePosition(true);
+		this.runtime.tickMe(this);
+	};
+	instanceProto.saveToJSON = function ()
+	{
+		return {
+			"text": this.elem.value,
+			"placeholder": this.elem.placeholder,
+			"tooltip": this.elem.title,
+			"disabled": !!this.elem.disabled,
+			"readonly": !!this.elem.readOnly,
+			"spellcheck": !!this.elem["spellcheck"]
+		};
+	};
+	instanceProto.loadFromJSON = function (o)
+	{
+		this.elem.value = o["text"];
+		this.elem.placeholder = o["placeholder"];
+		this.elem.title = o["tooltip"];
+		this.elem.disabled = o["disabled"];
+		this.elem.readOnly = o["readonly"];
+		this.elem["spellcheck"] = o["spellcheck"];
+	};
+	instanceProto.onDestroy = function ()
+	{
+		if (this.runtime.isDomFree)
+				return;
+		jQuery(this.elem).remove();
+		this.elem = null;
+	};
+	instanceProto.tick = function ()
+	{
+		this.updatePosition();
+	};
+	instanceProto.updatePosition = function (first)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		var left = this.layer.layerToCanvas(this.x, this.y, true);
+		var top = this.layer.layerToCanvas(this.x, this.y, false);
+		var right = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, true);
+		var bottom = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, false);
+		if (!this.visible || !this.layer.visible || right <= 0 || bottom <= 0 || left >= this.runtime.width || top >= this.runtime.height)
+		{
+			if (!this.element_hidden)
+				jQuery(this.elem).hide();
+			this.element_hidden = true;
+			return;
+		}
+		if (left < 1)
+			left = 1;
+		if (top < 1)
+			top = 1;
+		if (right >= this.runtime.width)
+			right = this.runtime.width - 1;
+		if (bottom >= this.runtime.height)
+			bottom = this.runtime.height - 1;
+		var curWinWidth = window.innerWidth;
+		var curWinHeight = window.innerHeight;
+		if (!first && this.lastLeft === left && this.lastTop === top && this.lastRight === right && this.lastBottom === bottom && this.lastWinWidth === curWinWidth && this.lastWinHeight === curWinHeight)
+		{
+			if (this.element_hidden)
+			{
+				jQuery(this.elem).show();
+				this.element_hidden = false;
+			}
+			return;
+		}
+		this.lastLeft = left;
+		this.lastTop = top;
+		this.lastRight = right;
+		this.lastBottom = bottom;
+		this.lastWinWidth = curWinWidth;
+		this.lastWinHeight = curWinHeight;
+		if (this.element_hidden)
+		{
+			jQuery(this.elem).show();
+			this.element_hidden = false;
+		}
+		var offx = Math.round(left) + jQuery(this.runtime.canvas).offset().left;
+		var offy = Math.round(top) + jQuery(this.runtime.canvas).offset().top;
+		jQuery(this.elem).css("position", "absolute");
+		jQuery(this.elem).offset({left: offx, top: offy});
+		jQuery(this.elem).width(Math.round(right - left));
+		jQuery(this.elem).height(Math.round(bottom - top));
+		if (this.autoFontSize)
+			jQuery(this.elem).css("font-size", ((this.layer.getScale() / this.runtime.devicePixelRatio) - 0.2) + "em");
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function(glw)
+	{
+	};
+	function Cnds() {};
+	Cnds.prototype.CompareText = function (text, case_)
+	{
+		if (this.runtime.isDomFree)
+			return false;
+		if (case_ === 0)	// insensitive
+			return cr.equals_nocase(this.elem.value, text);
+		else
+			return this.elem.value === text;
+	};
+	Cnds.prototype.OnTextChanged = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnClicked = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.OnDoubleClicked = function ()
+	{
+		return true;
+	};
+	pluginProto.cnds = new Cnds();
+	function Acts() {};
+	Acts.prototype.SetText = function (text)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.value = text;
+	};
+	Acts.prototype.SetPlaceholder = function (text)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.placeholder = text;
+	};
+	Acts.prototype.SetTooltip = function (text)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.title = text;
+	};
+	Acts.prototype.SetVisible = function (vis)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.visible = (vis !== 0);
+	};
+	Acts.prototype.SetEnabled = function (en)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.disabled = (en === 0);
+	};
+	Acts.prototype.SetReadOnly = function (ro)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.readOnly = (ro === 0);
+	};
+	Acts.prototype.SetFocus = function ()
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.focus();
+	};
+	Acts.prototype.SetBlur = function ()
+	{
+		if (this.runtime.isDomFree)
+			return;
+		this.elem.blur();
+	};
+	Acts.prototype.SetCSSStyle = function (p, v)
+	{
+		if (this.runtime.isDomFree)
+			return;
+		jQuery(this.elem).css(p, v);
+	};
+	pluginProto.acts = new Acts();
+	function Exps() {};
+	Exps.prototype.Text = function (ret)
+	{
+		if (this.runtime.isDomFree)
+		{
+			ret.set_string("");
+			return;
+		}
+		ret.set_string(this.elem.value);
+	};
+	pluginProto.exps = new Exps();
+}());
+;
+;
 cr.plugins_.TiledBg = function(runtime)
 {
 	this.runtime = runtime;
@@ -14398,6 +14698,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.TextBox,
+		false,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.TiledBg,
 		false,
 		true,
@@ -14925,7 +15237,7 @@ cr.getProjectModel = function() { return [
 			false,
 			330025696109766,
 			[
-				["images/quiz1btnover-sheet0.png", 22186, 1, 1, 140, 108, 1, 0.5, 0.5,[],[-0.3,-0.240741,0,-0.287037,0.121429,-0.00925925,0.385714,0,0.278571,0.212963,0,0.472222,-0.278571,0.212963,-0.4,0],0],
+				["images/quiz1btnover-sheet0.png", 22186, 1, 1, 140, 108, 1, 0.5, 0.5,[],[-0.3,-0.240741,0,-0.287037,0.121429,-0.00925899,0.385714,0,0.278571,0.212963,0,0.472222,-0.278571,0.212963,-0.4,0],0],
 				["images/quiz1btnover-sheet0.png", 22186, 1, 110, 140, 108, 1, 0.5, 0.5,[],[-0.314286,-0.259259,0,-0.287037,0.307143,-0.25,0.385714,0,0.278571,0.212963,0,0.462963,-0.285714,0.222222,-0.407143,0],0],
 				["images/quiz1btnover-sheet1.png", 9704, 0, 0, 140, 108, 1, 0.5, 0.5,[],[-0.314286,-0.259259,0,-0.287037,0.307143,-0.25,0.385714,0,0.278571,0.212963,0,0.481481,-0.285714,0.222222,-0.407143,0],0]
 			]
@@ -14956,9 +15268,9 @@ cr.getProjectModel = function() { return [
 			false,
 			7098990456400447,
 			[
-				["images/quiz2btnover-sheet0.png", 29968, 1, 1, 141, 125, 1, 0.503546, 0.504,[],[0.00709218,0.072,-0.00709221,-0.488,0.312057,-0.296,0.283688,-0.00800002,0.453901,0.448,-0.00709221,0.296,-0.397163,0.376,-0.00709221,-0.00800002],0],
-				["images/quiz2btnover-sheet0.png", 29968, 1, 127, 141, 125, 1, 0.503546, 0.504,[],[-0.22695,-0.192,-0.00709221,-0.488,0.319149,-0.304,0.347518,-0.00800002,0.453901,0.448,-0.00709221,0.312,-0.397163,0.376,-0.0141844,-0.00800002],0],
-				["images/quiz2btnover-sheet1.png", 12582, 0, 0, 141, 125, 1, 0.503546, 0.504,[],[-0.22695,-0.192,-0.00709221,-0.488,0.319149,-0.304,0.35461,-0.00800002,0.453901,0.448,-0.00709221,0.32,-0.397163,0.376,-0.0425532,-0.00800002],0]
+				["images/quiz2btnover-sheet0.png", 29968, 1, 1, 141, 125, 1, 0.503546, 0.504,[],[0.00709188,0.072,-0.00709212,-0.488,0.312057,-0.296,0.283688,-0.00800002,0.453901,0.448,-0.00709212,0.296,-0.397163,0.376,-0.00709212,-0.00800002],0],
+				["images/quiz2btnover-sheet0.png", 29968, 1, 127, 141, 125, 1, 0.503546, 0.504,[],[-0.22695,-0.192,-0.00709212,-0.488,0.319149,-0.304,0.347518,-0.00800002,0.453901,0.448,-0.00709212,0.312,-0.397163,0.376,-0.0141841,-0.00800002],0],
+				["images/quiz2btnover-sheet1.png", 12582, 0, 0, 141, 125, 1, 0.503546, 0.504,[],[-0.22695,-0.192,-0.00709212,-0.488,0.319149,-0.304,0.35461,-0.00800002,0.453901,0.448,-0.00709212,0.32,-0.397163,0.376,-0.0425531,-0.00800002],0]
 			]
 			]
 		],
@@ -14988,8 +15300,8 @@ cr.getProjectModel = function() { return [
 			5734446981380354,
 			[
 				["images/quiz3btnover-sheet0.png", 6582, 0, 0, 131, 140, 1, 0.503817, 0.5,[],[],0],
-				["images/quiz3btnover-sheet1.png", 9195, 0, 0, 131, 140, 1, 0.503817, 0.5,[],[-0.496183,-0.492857,-0.00763357,-0.214286,0.358779,-0.371429,0,0.0357143,-0.00763357,0.5,-0.114504,0.135714,-0.229008,0],0],
-				["images/quiz3btnover-sheet2.png", 7257, 0, 0, 131, 140, 1, 0.503817, 0.5,[],[-0.496183,-0.492857,-0.00763357,-0.214286,0.358779,-0.371429,0.038168,0,0,0.0357143,-0.00763357,0.5,-0.114504,0.135714,-0.221374,0],0]
+				["images/quiz3btnover-sheet1.png", 9195, 0, 0, 131, 140, 1, 0.503817, 0.5,[],[-0.496183,-0.492857,-0.00763378,-0.214286,0.358778,-0.371429,2.38419e-007,0.035714,-0.00763378,0.5,-0.114504,0.135714,-0.229008,0],0],
+				["images/quiz3btnover-sheet2.png", 7257, 0, 0, 131, 140, 1, 0.503817, 0.5,[],[-0.496183,-0.492857,-0.00763378,-0.214286,0.358778,-0.371429,0.0381682,0,2.38419e-007,0.035714,-0.00763378,0.5,-0.114504,0.135714,-0.221374,0],0]
 			]
 			]
 		],
@@ -15018,9 +15330,9 @@ cr.getProjectModel = function() { return [
 			false,
 			7818997061965528,
 			[
-				["images/quiz4btnover-sheet0.png", 10962, 0, 0, 141, 128, 1, 0.503546, 0.5,[],[-0.439716,-0.429688,-0.00709221,-0.234375,0.297872,-0.28125,0.319149,0,0.234043,0.210938,-0.00709221,0.0390625,-0.326241,0.304688,-0.496454,0],0],
-				["images/quiz4btnover-sheet1.png", 14272, 0, 0, 141, 128, 1, 0.503546, 0.5,[],[-0.446809,-0.4375,-0.00709221,-0.242188,0.29078,-0.273438,0.319149,0,0.234043,0.210938,-0.00709221,0.4375,-0.333333,0.3125,-0.503546,0],0],
-				["images/quiz4btnover-sheet2.png", 11543, 0, 0, 141, 128, 1, 0.503546, 0.5,[],[-0.446809,-0.4375,-0.00709221,-0.242188,0.297872,-0.28125,0.326241,0,0.234043,0.210938,-0.00709221,0.445313,-0.326241,0.304688,-0.503546,0],0]
+				["images/quiz4btnover-sheet0.png", 10962, 0, 0, 141, 128, 1, 0.503546, 0.5,[],[-0.439716,-0.429688,-0.00709212,-0.234375,0.297872,-0.28125,0.319149,0,0.234043,0.210938,-0.00709212,0.039063,-0.326241,0.304688,-0.496454,0],0],
+				["images/quiz4btnover-sheet1.png", 14272, 0, 0, 141, 128, 1, 0.503546, 0.5,[],[-0.446809,-0.4375,-0.00709212,-0.242187,0.29078,-0.273437,0.319149,0,0.234043,0.210938,-0.00709212,0.4375,-0.333333,0.3125,-0.503546,0],0],
+				["images/quiz4btnover-sheet2.png", 11543, 0, 0, 141, 128, 1, 0.503546, 0.5,[],[-0.446809,-0.4375,-0.00709212,-0.242187,0.297872,-0.28125,0.326241,0,0.234043,0.210938,-0.00709212,0.445313,-0.326241,0.304688,-0.503546,0],0]
 			]
 			]
 		],
@@ -15049,9 +15361,9 @@ cr.getProjectModel = function() { return [
 			false,
 			7431987214970062,
 			[
-				["images/quiz5btnover-sheet0.png", 15015, 1, 1, 90, 142, 1, 0.5, 0.5,[],[-0.288889,-0.366197,0,-0.415493,0.2,-0.309859,0.188889,0,-0.0444444,0.15493,0,0.119718,-0.111111,0.253521,-0.0111111,0],0],
-				["images/quiz5btnover-sheet0.png", 15015, 92, 1, 90, 142, 1, 0.5, 0.5,[],[-0.3,-0.373239,0,-0.457746,0.211111,-0.316901,0.333333,0,-0.0444444,0.15493,0,0.450704,-0.122222,0.260563,-0.0222222,0],0],
-				["images/quiz5btnover-sheet1.png", 6452, 0, 0, 90, 142, 1, 0.5, 0.5,[],[-0.3,-0.373239,0,-0.464789,0.211111,-0.316901,0.344444,0,-0.0333333,0.161972,0,0.450704,-0.122222,0.260563,-0.0222222,0],0]
+				["images/quiz5btnover-sheet0.png", 15015, 1, 1, 90, 142, 1, 0.5, 0.5,[],[-0.288889,-0.366197,0,-0.415493,0.2,-0.309859,0.188889,0,-0.044444,0.15493,0,0.119718,-0.111111,0.253521,-0.011111,0],0],
+				["images/quiz5btnover-sheet0.png", 15015, 92, 1, 90, 142, 1, 0.5, 0.5,[],[-0.3,-0.373239,0,-0.457747,0.211111,-0.316901,0.333333,0,-0.044444,0.15493,0,0.450704,-0.122222,0.260563,-0.022222,0],0],
+				["images/quiz5btnover-sheet1.png", 6452, 0, 0, 90, 142, 1, 0.5, 0.5,[],[-0.3,-0.373239,0,-0.464789,0.211111,-0.316901,0.344444,0,-0.033333,0.161972,0,0.450704,-0.122222,0.260563,-0.022222,0],0]
 			]
 			]
 		],
@@ -15080,7 +15392,7 @@ cr.getProjectModel = function() { return [
 			false,
 			6789697695364806,
 			[
-				["images/buton_help_over-sheet0.png", 5932, 0, 0, 70, 90, 1, 0.5, 0.5,[],[-0.1,-0.188889,0,-0.5,0.228571,-0.288889,0.228571,0,0.0428572,0.144444,0,0.5,-0.171429,0.244444,-0.185714,0],0],
+				["images/buton_help_over-sheet0.png", 5932, 0, 0, 70, 90, 1, 0.5, 0.5,[],[-0.1,-0.188889,0,-0.5,0.228571,-0.288889,0.228571,0,0.042857,0.144444,0,0.5,-0.171429,0.244444,-0.185714,0],0],
 				["images/buton_help_over-sheet1.png", 6026, 0, 0, 70, 90, 1, 0.5, 0.5,[],[-0.1,-0.188889,0,-0.5,0.3,-0.344444,0.228571,0,0.385714,0.411111,0,0.5,-0.385714,0.411111,-0.271429,0],0]
 			]
 			]
@@ -15112,6 +15424,189 @@ cr.getProjectModel = function() { return [
 ,	[
 		"t26",
 		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/quiz1beeleft.png", 40032, 0],
+		null,
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			4290265017921328
+		]
+		],
+		false,
+		false,
+		2092906329977628,
+		[]
+	]
+,	[
+		"t27",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/quiz1beeleft.png", 40032, 0],
+		null,
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			5704681375671704
+		]
+		],
+		false,
+		false,
+		1477178799424688,
+		[]
+	]
+,	[
+		"t28",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/quiz1text.png", 64863, 0],
+		null,
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			315484660789223
+		]
+		],
+		false,
+		false,
+		1545243005750888,
+		[]
+	]
+,	[
+		"t29",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			0,
+			false,
+			0,
+			0,
+			false,
+			2429964447534001,
+			[
+				["images/cheatbutton-sheet0.png", 64570, 0, 0, 200, 222, 1, 0.5, 0.5,[],[-0.305,-0.324324,0,-0.5,0.305,-0.324324,0.5,0,0.355,0.369369,0,0.495495,-0.355,0.369369,-0.495,0],0],
+				["images/cheatbutton-sheet1.png", 67928, 0, 0, 200, 222, 1, 0.5, 0.5,[],[-0.305,-0.324324,0,-0.5,0.305,-0.324324,0.495,0,0.355,0.369369,0,0.495495,-0.355,0.369369,-0.5,0],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			276243034020826
+		]
+		],
+		false,
+		false,
+		1021429501951287,
+		[]
+	]
+,	[
+		"t30",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			0,
+			false,
+			0,
+			0,
+			false,
+			6683975863966388,
+			[
+				["images/gobutton-sheet0.png", 60925, 0, 0, 200, 222, 1, 0.5, 0.5,[],[-0.305,-0.324324,0,-0.5,0.305,-0.324324,0.5,0,0.355,0.369369,0,0.495495,-0.355,0.369369,-0.495,0],0],
+				["images/gobutton-sheet1.png", 55232, 0, 0, 200, 222, 1, 0.5, 0.5,[],[-0.305,-0.324324,0,-0.5,0.305,-0.324324,0.495,0,0.355,0.369369,0,0.495495,-0.355,0.369369,-0.5,0],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			4841182785464051
+		]
+		],
+		false,
+		false,
+		4890921873953736,
+		[]
+	]
+,	[
+		"t31",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			1,
+			0,
+			false,
+			6916043051758016,
+			[
+				["images/input_background-sheet0.png", 36806, 0, 0, 863, 162, 1, 0.500579, 0.5,[],[-0.466976,-0.320988,-0.00115874,-0.308642,0.465817,-0.320988,0.488992,0,0.470452,0.345679,-0.00115874,0.314815,-0.471611,0.345679,-0.488992,0],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			5245709981685176
+		]
+		],
+		false,
+		false,
+		7501160178786471,
+		[]
+	]
+,	[
+		"t32",
+		cr.plugins_.TextBox,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		2399869483830392,
+		[]
+	]
+,	[
+		"t33",
+		cr.plugins_.TiledBg,
 		true,
 		[],
 		1,
@@ -15131,7 +15626,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t27",
+		"t34",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -15151,10 +15646,27 @@ cr.getProjectModel = function() { return [
 		7774073635987797,
 		[]
 	]
+,	[
+		"t35",
+		cr.plugins_.Sprite,
+		true,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		3809172700542352,
+		[]
+	]
 	],
 	[
-		[26,5,3,4,1,2]
-,		[27,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
+		[33,5,3,4,1,2]
+,		[34,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
+,		[35,29,30,31]
 	],
 	[
 	[
@@ -15667,6 +16179,171 @@ cr.getProjectModel = function() { return [
 			],
 			[			]
 		]
+,		[
+			"QUIZ_LAYER_1",
+			3,
+			3865101735037374,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[50, 104, 0, 237, 183, 0, 0, 1, 0, 0, 0, 0, []],
+				26,
+				25,
+				[
+				],
+				[
+				[
+					0,
+					1.5,
+					0,
+					0,
+					0
+				]
+				],
+				[
+					1,
+					0
+				]
+			]
+,			[
+				[1633, 105, 0, 237, 183, 0, 0, 1, 0, 0, 0, 0, []],
+				27,
+				26,
+				[
+				],
+				[
+				[
+					0,
+					1.5,
+					0,
+					0,
+					0
+				]
+				],
+				[
+					1,
+					0
+				]
+			]
+,			[
+				[499, 105, 0, 920, 67, 0, 0, 1, 0, 0, 0, 0, []],
+				28,
+				27,
+				[
+				],
+				[
+				[
+					0,
+					1.5,
+					0,
+					0,
+					0
+				]
+				],
+				[
+					1,
+					0
+				]
+			]
+,			[
+				[364, 465, 0, 200, 222, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				29,
+				28,
+				[
+				],
+				[
+				[
+					0,
+					1,
+					0,
+					0,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1532, 465, 0, 200, 222, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				30,
+				29,
+				[
+				],
+				[
+				[
+					0,
+					1,
+					0,
+					0,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[945, 462, 0, 863, 162, 0, 0, 1, 0.500579, 0.5, 0, 0, []],
+				31,
+				30,
+				[
+				],
+				[
+				[
+					0,
+					1,
+					0,
+					0,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[566, 417, 0, 751, 87, 0, 0, 1, 0, 0, 0, 0, []],
+				32,
+				31,
+				[
+				],
+				[
+				],
+				[
+					"",
+					"",
+					"",
+					0,
+					1,
+					0,
+					0,
+					0,
+					0,
+					""
+				]
+			]
+			],
+			[			]
+		]
 		],
 		[
 		],
@@ -15872,6 +16549,98 @@ false,false,3240496362522863,false
 				]
 ,				[
 					7,
+					[
+						2,
+						"0"
+					]
+				]
+				]
+			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetCSSStyle,
+				null,
+				9348032033328309,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"color"
+					]
+				]
+,				[
+					1,
+					[
+						2,
+						"#6d2020"
+					]
+				]
+				]
+			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetCSSStyle,
+				null,
+				3446093439935803,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"font-size"
+					]
+				]
+,				[
+					1,
+					[
+						2,
+						"50px"
+					]
+				]
+				]
+			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetCSSStyle,
+				null,
+				8353208209519235,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"text-align"
+					]
+				]
+,				[
+					1,
+					[
+						2,
+						"center"
+					]
+				]
+				]
+			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetCSSStyle,
+				null,
+				1441384038260241,
+				false
+				,[
+				[
+					1,
+					[
+						2,
+						"border"
+					]
+				]
+,				[
+					1,
 					[
 						2,
 						"0"
@@ -16504,7 +17273,7 @@ false,false,3240496362522863,false
 				false
 			]
 ,			[
-				26,
+				33,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement2",
 				7351923478391952,
@@ -16550,7 +17319,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				27,
+				34,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement",
 				3999778116893962,
@@ -16595,6 +17364,187 @@ false,false,3240496362522863,false
 				]
 				]
 			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				5771088783960784,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						2.1
+					]
+				]
+				]
+			]
+,			[
+				26,
+				cr.behaviors.Fade.prototype.acts.StartFade,
+				"Fade",
+				3077042805507698,
+				false
+			]
+,			[
+				26,
+				cr.plugins_.TiledBg.prototype.acts.SetVisible,
+				null,
+				9465802483134652,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				27,
+				cr.behaviors.Fade.prototype.acts.StartFade,
+				"Fade",
+				1734717843222866,
+				false
+			]
+,			[
+				27,
+				cr.plugins_.TiledBg.prototype.acts.SetVisible,
+				null,
+				7323759254639783,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				28,
+				cr.behaviors.Fade.prototype.acts.StartFade,
+				"Fade",
+				5841612289445784,
+				false
+			]
+,			[
+				28,
+				cr.plugins_.TiledBg.prototype.acts.SetVisible,
+				null,
+				3325358417571984,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				3562697856100552,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+,			[
+				29,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				3093152917992954,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				29,
+				cr.behaviors.Fade.prototype.acts.StartFade,
+				"Fade",
+				6854361994220113,
+				false
+			]
+,			[
+				30,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				5086849803810643,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				30,
+				cr.behaviors.Fade.prototype.acts.StartFade,
+				"Fade",
+				1333568894416639,
+				false
+			]
+,			[
+				31,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				6695740825664649,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				31,
+				cr.behaviors.Fade.prototype.acts.StartFade,
+				"Fade",
+				8432307125284197,
+				false
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				6155994806403714,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						1
+					]
+				]
+				]
+			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetVisible,
+				null,
+				6179440903949485,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -16605,7 +17555,7 @@ false,false,3240496362522863,false
 			9721108542427753,
 			[
 			[
-				26,
+				33,
 				cr.plugins_.TiledBg.prototype.cnds.CompareY,
 				null,
 				0,
@@ -16631,7 +17581,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				26,
+				33,
 				cr.plugins_.TiledBg.prototype.acts.SetY,
 				null,
 				9348378923771939,
@@ -16647,14 +17597,14 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				26,
+				33,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement2",
 				565769501826665,
 				false
 			]
 ,			[
-				26,
+				33,
 				cr.plugins_.TiledBg.prototype.acts.Destroy,
 				null,
 				6465581429018932,
@@ -18703,7 +19653,7 @@ false,false,3240496362522863,false
 			5870558421094207,
 			[
 			[
-				27,
+				34,
 				cr.plugins_.Sprite.prototype.cnds.CompareY,
 				null,
 				0,
@@ -18729,7 +19679,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				27,
+				34,
 				cr.plugins_.Sprite.prototype.acts.SetY,
 				null,
 				8083470493807329,
@@ -18745,7 +19695,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				27,
+				34,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement",
 				8223027928572931,
@@ -18909,6 +19859,174 @@ false,false,3240496362522863,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			7090804617916876,
+			[
+			[
+				8,
+				cr.plugins_.Mouse.prototype.cnds.OnObjectClicked,
+				null,
+				1,
+				false,
+				false,
+				false,
+				5701045557550207,
+				false
+				,[
+				[
+					3,
+					0
+				]
+,				[
+					3,
+					0
+				]
+,				[
+					4,
+					29
+				]
+				]
+			]
+			],
+			[
+			[
+				29,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				5881619508034268,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				6639392376658223,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						0.1
+					]
+				]
+				]
+			]
+,			[
+				29,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				7782547555837419,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			1286050697881186,
+			[
+			[
+				8,
+				cr.plugins_.Mouse.prototype.cnds.OnObjectClicked,
+				null,
+				1,
+				false,
+				false,
+				false,
+				3863552057896067,
+				false
+				,[
+				[
+					3,
+					0
+				]
+,				[
+					3,
+					0
+				]
+,				[
+					4,
+					30
+				]
+				]
+			]
+			],
+			[
+			[
+				30,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				5701105074670975,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				246514459784846,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						0.1
+					]
+				]
+				]
+			]
+,			[
+				30,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				659152938075686,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 	],
@@ -18925,7 +20043,7 @@ false,false,3240496362522863,false
 	false,
 	0,
 	true,
-	25,
+	32,
 	false,
 	[
 	]

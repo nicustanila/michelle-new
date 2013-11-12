@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-#1384242429
+#1384281991
 index.html
 c2runtime.js
 jquery-2.0.0.min.js
@@ -32,6 +32,13 @@ images\quiz5btnover-sheet0.png
 images\quiz5btnover-sheet1.png
 images\buton_help_over-sheet0.png
 images\buton_help_over-sheet1.png
+images\quiz1beeleft.png
+images\quiz1text.png
+images\cheatbutton-sheet0.png
+images\cheatbutton-sheet1.png
+images\gobutton-sheet0.png
+images\gobutton-sheet1.png
+images\input_background-sheet0.png
 icon-16.png
 icon-32.png
 icon-114.png
