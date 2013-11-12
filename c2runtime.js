@@ -16000,6 +16000,92 @@ cr.getProjectModel = function() { return [
 ,	[
 		"t38",
 		cr.plugins_.TiledBg,
+		false,
+		[],
+		0,
+		0,
+		["images/background.png", 1913225, 1],
+		null,
+		[
+		],
+		false,
+		false,
+		4950944497371238,
+		[]
+	]
+,	[
+		"t39",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			0,
+			false,
+			0,
+			0,
+			false,
+			6882810753473541,
+			[
+				["images/replay_button-sheet0.png", 159647, 0, 0, 370, 463, 1, 0.5, 0.50108,[],[-0.354054,-0.384449,0,-0.50108,0.354054,-0.384449,0.483784,-0.00215983,0.205405,0.263499,0,0.298056,-0.205405,0.263499,-0.483784,-0.00215983],0],
+				["images/replay_button-sheet1.png", 159647, 0, 0, 370, 463, 1, 0.5, 0.50108,[],[-0.354054,-0.384449,0,-0.50108,0.354054,-0.384449,0.483784,-0.00215983,0.205405,0.263499,0,0.298056,-0.205405,0.263499,-0.483784,-0.00215983],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			9858356300347845
+		]
+		],
+		false,
+		false,
+		7931173602896671,
+		[]
+	]
+,	[
+		"t40",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			0,
+			false,
+			0,
+			0,
+			false,
+			3933729383260963,
+			[
+				["images/next_step-sheet0.png", 161782, 0, 0, 370, 463, 1, 0.5, 0.50108,[],[-0.356757,-0.386609,0,-0.50108,0.351351,-0.382289,0.481081,-0.00215983,0.205405,0.263499,0,0.298056,-0.205405,0.263499,-0.486486,-0.00215983],0],
+				["images/next_step-sheet1.png", 153152, 0, 0, 370, 463, 1, 0.5, 0.50108,[],[-0.356757,-0.386609,0,-0.50108,0.351351,-0.382289,0.481081,-0.00215983,0.205405,0.263499,0,0.298056,-0.205405,0.263499,-0.486486,-0.00215983],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			2903948841572594
+		]
+		],
+		false,
+		false,
+		5181481654269113,
+		[]
+	]
+,	[
+		"t41",
+		cr.plugins_.TiledBg,
 		true,
 		[],
 		1,
@@ -16019,7 +16105,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t39",
+		"t42",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -16040,7 +16126,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t40",
+		"t43",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -16057,9 +16143,9 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[38,5,3,4,1,2]
-,		[39,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
-,		[40,29,30,31]
+		[41,5,3,4,1,2]
+,		[42,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
+,		[43,29,30,31]
 	],
 	[
 	[
@@ -16881,16 +16967,91 @@ cr.getProjectModel = function() { return [
 				[
 				],
 				[
-					"/sdcard/test.m4v",
+					"http://brandup.ro/colin30/test.mp4",
 					"",
 					"",
 					"",
-					1,
+					0,
 					1,
 					0,
 					0,
 					0,
 					""
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"AFTER_VIDEO",
+			7,
+			8182034188025201,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[0, 0, 0, 1920, 1080, 0, 0, 1, 0, 0, 0, 0, []],
+				38,
+				37,
+				[
+				],
+				[
+				],
+				[
+					1,
+					0
+				]
+			]
+,			[
+				[670, 500, 0, 370, 463, 0, 0, 1, 0.5, 0.50108, 0, 0, []],
+				39,
+				38,
+				[
+				],
+				[
+				[
+					0,
+					0,
+					0,
+					0.5,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+,			[
+				[1284, 500, 0, 370, 463, 0, 0, 1, 0.5, 0.50108, 0, 0, []],
+				40,
+				39,
+				[
+				],
+				[
+				[
+					0,
+					0,
+					0,
+					0.5,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
 				]
 			]
 			],
@@ -17103,6 +17264,19 @@ false,false,3240496362522863,false
 						2,
 						"0"
 					]
+				]
+				]
+			]
+,			[
+				37,
+				cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+				null,
+				6750650944030382,
+				false
+				,[
+				[
+					3,
+					0
 				]
 				]
 			]
@@ -17823,7 +17997,7 @@ false,false,3240496362522863,false
 				false
 			]
 ,			[
-				38,
+				41,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement2",
 				7351923478391952,
@@ -17869,7 +18043,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				39,
+				42,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement",
 				3999778116893962,
@@ -18105,7 +18279,7 @@ false,false,3240496362522863,false
 			9721108542427753,
 			[
 			[
-				38,
+				41,
 				cr.plugins_.TiledBg.prototype.cnds.CompareY,
 				null,
 				0,
@@ -18131,7 +18305,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				38,
+				41,
 				cr.plugins_.TiledBg.prototype.acts.SetY,
 				null,
 				9348378923771939,
@@ -18147,14 +18321,14 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				38,
+				41,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement2",
 				565769501826665,
 				false
 			]
 ,			[
-				38,
+				41,
 				cr.plugins_.TiledBg.prototype.acts.Destroy,
 				null,
 				6465581429018932,
@@ -20203,7 +20377,7 @@ false,false,3240496362522863,false
 			5870558421094207,
 			[
 			[
-				39,
+				42,
 				cr.plugins_.Sprite.prototype.cnds.CompareY,
 				null,
 				0,
@@ -20229,7 +20403,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				39,
+				42,
 				cr.plugins_.Sprite.prototype.acts.SetY,
 				null,
 				8083470493807329,
@@ -20245,7 +20419,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				39,
+				42,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement",
 				8223027928572931,
@@ -20842,6 +21016,71 @@ false,false,3240496362522863,false
 					]
 					]
 				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.Wait,
+					null,
+					3162413002621551,
+					false
+					,[
+					[
+						0,
+						[
+							1,
+							2.85
+						]
+					]
+					]
+				]
+,				[
+					37,
+					cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+					null,
+					6670041381642184,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					37,
+					cr.plugins_.Rex_Video.prototype.acts.SetAutoplay,
+					null,
+					8496188783124169,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					37,
+					cr.plugins_.Rex_Video.prototype.acts.Play,
+					null,
+					9093315181461109,
+					false
+				]
+,				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetText,
+					null,
+					1299543873937531,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							""
+						]
+					]
+					]
+				]
 				]
 			]
 ,			[
@@ -21031,6 +21270,354 @@ false,false,3240496362522863,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			5469281156127535,
+			[
+			[
+				32,
+				cr.plugins_.TextBox.prototype.cnds.OnTextChanged,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7161446007266254,
+				false
+			]
+			],
+			[
+			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				6282020288361075,
+				false
+				,[
+				[
+					11,
+					"currentAnswer"
+				]
+,				[
+					7,
+					[
+						20,
+						32,
+						cr.plugins_.TextBox.prototype.exps.Text,
+						true,
+						null
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			9074029233202763,
+			[
+			[
+				37,
+				cr.plugins_.Rex_Video.prototype.cnds.IsEnded,
+				null,
+				0,
+				false,
+				false,
+				false,
+				2677548884177284,
+				false
+			]
+			],
+			[
+			[
+				37,
+				cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+				null,
+				4025796046627691,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
+,			[
+				38,
+				cr.plugins_.TiledBg.prototype.acts.SetVisible,
+				null,
+				3265054073180826,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				40,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				3026636644424871,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				39,
+				cr.plugins_.Sprite.prototype.acts.SetVisible,
+				null,
+				8098669484013819,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			4864644609293857,
+			[
+			[
+				8,
+				cr.plugins_.Mouse.prototype.cnds.OnObjectClicked,
+				null,
+				1,
+				false,
+				false,
+				false,
+				9689186803901101,
+				false
+				,[
+				[
+					3,
+					0
+				]
+,				[
+					3,
+					0
+				]
+,				[
+					4,
+					39
+				]
+				]
+			]
+			],
+			[
+			[
+				39,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				5932241143127663,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				5838996037629753,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						0.1
+					]
+				]
+				]
+			]
+,			[
+				39,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				9084884169580824,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				1646655303829886,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					3881262205401171,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					37,
+					cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+					null,
+					5979749853017084,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					37,
+					cr.plugins_.Rex_Video.prototype.acts.Play,
+					null,
+					2377432392274408,
+					false
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			3758554230537921,
+			[
+			[
+				8,
+				cr.plugins_.Mouse.prototype.cnds.OnObjectClicked,
+				null,
+				1,
+				false,
+				false,
+				false,
+				7975959110107151,
+				false
+				,[
+				[
+					3,
+					0
+				]
+,				[
+					3,
+					0
+				]
+,				[
+					4,
+					40
+				]
+				]
+			]
+			],
+			[
+			[
+				40,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				4756334573406185,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				6377902874692537,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						0.1
+					]
+				]
+				]
+			]
+,			[
+				40,
+				cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+				null,
+				4008085451097114,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						0
+					]
+				]
+				]
+			]
+			]
+		]
 		]
 	]
 	],
@@ -21047,7 +21634,7 @@ false,false,3240496362522863,false
 	false,
 	0,
 	true,
-	37,
+	40,
 	false,
 	[
 	]
