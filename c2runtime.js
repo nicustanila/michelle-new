@@ -11344,6 +11344,259 @@ cr.plugins_.Mouse = function(runtime)
 }());
 ;
 ;
+cr.plugins_.Rex_Video = function(runtime)
+{
+	this.runtime = runtime;
+};
+(function ()
+{
+	var pluginProto = cr.plugins_.Rex_Video.prototype;
+	pluginProto.Type = function(plugin)
+	{
+		this.plugin = plugin;
+		this.runtime = plugin.runtime;
+	};
+	var typeProto = pluginProto.Type.prototype;
+	typeProto.onCreate = function()
+	{
+	};
+	pluginProto.Instance = function(type)
+	{
+		this.type = type;
+		this.runtime = type.runtime;
+	};
+	var instanceProto = pluginProto.Instance.prototype;
+	instanceProto.onCreate = function()
+	{
+		if (this.runtime.isDomFree)
+			return;
+        this.elem = document.createElement("video");
+        var source = document.createElement('source');
+        this.elem.appendChild(source);
+        source.src = this.properties[0];
+        source = document.createElement('source');
+        this.elem.appendChild(source);
+        source.src = this.properties[1];
+        source = document.createElement('source');
+        this.elem.appendChild(source);
+        source.src = this.properties[2];
+        this.elem.poster = this.properties[3];
+        this.elem.autoplay = (this.properties[4]==1);
+        this.elem.controls = (this.properties[5]==1);
+        this.elem.preload = ["auto","metadata","none"][this.properties[6]];
+        this.elem.loop = (this.properties[7]==1);
+        this.elem.muted = (this.properties[8]==1);
+        this.elem.id = this.properties[9];
+        jQuery(this.elem).appendTo(this.runtime.canvasdiv ? this.runtime.canvasdiv : "body");
+        this._pre_ended = false;
+        this._checked_is_playing = false;
+		this.updatePosition();
+		this.runtime.tickMe(this);
+	};
+	instanceProto.onDestroy = function ()
+	{
+		if (this.runtime.isDomFree)
+			return;
+		jQuery(this.elem).remove();
+		this.elem = null;
+	};
+	instanceProto.tick = function ()
+	{
+		this.updatePosition();
+        this.check_ended();
+        this.check_playing();
+	};
+	instanceProto.updatePosition = function ()
+	{
+		var left = this.layer.layerToCanvas(this.x, this.y, true);
+		var top = this.layer.layerToCanvas(this.x, this.y, false);
+		var right = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, true);
+		var bottom = this.layer.layerToCanvas(this.x + this.width, this.y + this.height, false);
+		if (!this.visible || right <= 0 || bottom <= 0 || left >= this.runtime.width || top >= this.runtime.height)
+		{
+			jQuery(this.elem).hide();
+			return;
+		}
+		if (left < 1)
+			left = 1;
+		if (top < 1)
+			top = 1;
+		if (right >= this.runtime.width)
+			right = this.runtime.width - 1;
+		if (bottom >= this.runtime.height)
+			bottom = this.runtime.height - 1;
+		jQuery(this.elem).show();
+		var offx = left + jQuery(this.runtime.canvas).offset().left;
+		var offy = top + jQuery(this.runtime.canvas).offset().top;
+		jQuery(this.elem).offset({left: offx, top: offy});
+		jQuery(this.elem).width(right - left);
+		jQuery(this.elem).height(bottom - top);
+	};
+	instanceProto.draw = function(ctx)
+	{
+	};
+	instanceProto.drawGL = function(glw)
+	{
+	};
+	instanceProto.check_ended = function ()
+	{
+        if (!this._pre_ended && this.elem.ended)
+        {
+            this._checked_is_playing = false;
+            this.runtime.trigger(cr.plugins_.Rex_Video.prototype.cnds.OnEnded, this);
+		}
+        this._pre_ended = this.elem.ended;
+	};
+	instanceProto.check_playing = function()
+	{
+		if((!this._checked_is_playing) &&
+		   (this.elem.currentTime != this.elem.initialTime))
+		{
+			this._checked_is_playing = true;
+			this.runtime.trigger(cr.plugins_.Rex_Video.prototype.cnds.OnPlay, this);
+		}
+	};
+	instanceProto.IsPlaying = function()
+	{
+		return ((!this.elem.paused) && (!this.elem.ended));
+	};
+	function Cnds() {};
+	pluginProto.cnds = new Cnds();
+	Cnds.prototype.OnEnded = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.IsEnded = function ()
+	{
+		return this.elem.ended;
+	};
+	Cnds.prototype.OnPlay = function ()
+	{
+		return true;
+	};
+	Cnds.prototype.IsPlaying = function ()
+	{
+		return this.IsPlaying();
+	};
+	Cnds.prototype.CompareCurrentTime = function (cmp, d)
+	{
+	    if (this.IsPlaying())
+		    return cr.do_cmp(this.elem.currentTime, cmp, d);
+		else
+		    return false;
+	};
+	function Acts() {};
+	pluginProto.acts = new Acts();
+	Acts.prototype.SetSource = function (src)
+	{
+		this.elem.src = src;
+	};
+	Acts.prototype.Play = function ()
+	{
+		this.elem.play();
+	};
+	Acts.prototype.Stop = function ()
+	{
+		this.elem.pause();
+		this.elem.initialTime = 0;
+		this.elem.currentTime = 0;
+		this._checked_is_playing = false;
+	};
+	Acts.prototype.Pause = function ()
+	{
+		this._checked_is_playing = false;
+		this.elem.pause();
+	};
+	Acts.prototype.SetControls = function (is_enable)
+	{
+		this.elem.controls = (is_enable==1);
+	};
+	Acts.prototype.SetVolume = function (volume)
+	{
+		this.elem.volume = cr.clamp(volume, 0, 1);
+	};
+	Acts.prototype.SetPoster = function (poster)
+	{
+		this.elem.poster = poster;
+	};
+	Acts.prototype.SetLoop = function (is_enable)
+	{
+		this.elem.loop = (is_enable==1);
+	};
+	Acts.prototype.SetMuted = function (is_enable)
+	{
+		this.elem.muted = (is_enable==1);
+	};
+	Acts.prototype.SetAutoplay = function (is_enable)
+	{
+		this.elem.autoplay = (is_enable==1);
+	};
+	Acts.prototype.SetVisible = function (vis)
+	{
+		this.visible = (vis !== 0);
+	};
+	Acts.prototype.Seek = function (t)
+	{
+		this.elem.currentTime = t;
+	};
+	Acts.prototype.Image2Canvas = function (objType)
+	{
+	    if (objType == null)
+	        return;
+		var sol = objType.getCurrentSol();
+		var instances;
+		if (sol.select_all)
+			instances = sol.type.instances;
+		else
+			instances = sol.instances;
+        var i, cnt=instances.length, canvas_obj, ctx;
+        debugger;
+        for (i=0; i<cnt; i++)
+        {
+            canvas_obj = instances[i];
+            ctx = canvas_obj.ctx;
+            ctx.save();
+			ctx.scale(canvas_obj.canvas.width/this.elem.videoWidth, canvas_obj.canvas.height/this.elem.videoHeight);
+			ctx.rotate(-canvas_obj.angle);
+			ctx.translate(-canvas_obj.bquad.tlx, -canvas_obj.bquad.tly);
+			ctx.drawImage(this.elem, 0, 0);
+			ctx.restore();
+        }
+        this.runtime.redraw = true;
+	};
+	function Exps() {};
+	pluginProto.exps = new Exps();
+	Exps.prototype.CurrentTime = function (ret)
+	{
+		ret.set_float(this.elem.currentTime);
+	};
+	Exps.prototype.IsPaused = function (ret)
+	{
+		ret.set_int(this.elem.paused);
+	};
+	Exps.prototype.IsMuted = function (ret)
+	{
+		ret.set_int(this.elem.muted);
+	};
+	Exps.prototype.Volume = function (ret)
+	{
+		ret.set_float(this.elem.volume);
+	};
+	Exps.prototype.ReadyState = function (ret)
+	{
+		ret.set_int(this.elem.readyState);
+	};
+	Exps.prototype.SourceHeight = function (ret)
+	{
+		ret.set_float(this.elem.videoHeight);
+	};
+	Exps.prototype.SourceWidth = function (ret)
+	{
+		ret.set_float(this.elem.videoWidth);
+	};
+}());
+;
+;
 cr.plugins_.Sprite = function(runtime)
 {
 	this.runtime = runtime;
@@ -14686,6 +14939,18 @@ cr.getProjectModel = function() { return [
 		false
 	]
 ,	[
+		cr.plugins_.Rex_Video,
+		false,
+		true,
+		true,
+		true,
+		false,
+		false,
+		false,
+		false,
+		false
+	]
+,	[
 		cr.plugins_.Sprite,
 		false,
 		true,
@@ -15607,6 +15872,134 @@ cr.getProjectModel = function() { return [
 ,	[
 		"t33",
 		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/succes_popup.png", 1469167, 0],
+		null,
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			5118122730837685
+		]
+		],
+		false,
+		false,
+		7656065019907658,
+		[]
+	]
+,	[
+		"t34",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			6,
+			0,
+			false,
+			308476893159128,
+			[
+				["images/poo_succes-sheet0.png", 80927, 1, 1, 235, 376, 1, 0.502128, 0.5,[],[-0.276596,-0.359043,-0.00425529,-0.452128,0.357447,-0.412234,0.280851,0,0.412766,0.446809,-0.00425529,0.5,-0.255319,0.345745,-0.442553,0],0],
+				["images/poo_succes-sheet0.png", 80927, 237, 1, 235, 376, 1, 0.502128, 0.5,[],[-0.357447,-0.409574,-0.00425529,-0.452128,0.27234,-0.359043,0.446809,0,0.255319,0.348404,-0.00425529,0.5,-0.417021,0.446809,-0.285106,0],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			2890178428473261
+		]
+		],
+		false,
+		false,
+		3329822257857707,
+		[]
+	]
+,	[
+		"t35",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/error_popup.png", 1469356, 0],
+		null,
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			3693978969295368
+		]
+		],
+		false,
+		false,
+		1982126550303759,
+		[]
+	]
+,	[
+		"t36",
+		cr.plugins_.Sprite,
+		false,
+		[],
+		1,
+		0,
+		null,
+		[
+			[
+			"Default",
+			5,
+			false,
+			6,
+			0,
+			false,
+			4557606593016707,
+			[
+				["images/poo_error-sheet0.png", 71586, 1, 1, 212, 378, 1, 0.5, 0.5,[],[-0.235849,-0.351852,0,-0.481481,0.283019,-0.378307,0.448113,0,0.283019,0.378307,0,0.320106,-0.382075,0.433862,-0.476415,0],0],
+				["images/poo_error-sheet0.png", 71586, 214, 1, 212, 378, 1, 0.5, 0.5,[],[-0.283019,-0.378307,0,-0.481481,0.240566,-0.354497,0.485849,0,0.386792,0.436508,0,0.322751,-0.278302,0.375661,-0.438679,0],0]
+			]
+			]
+		],
+		[
+		[
+			"Fade",
+			cr.behaviors.Fade,
+			7831443935347891
+		]
+		],
+		false,
+		false,
+		286556213829774,
+		[]
+	]
+,	[
+		"t37",
+		cr.plugins_.Rex_Video,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		4605798121293786,
+		[]
+	]
+,	[
+		"t38",
+		cr.plugins_.TiledBg,
 		true,
 		[],
 		1,
@@ -15626,7 +16019,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t34",
+		"t39",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -15647,7 +16040,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t35",
+		"t40",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -15664,9 +16057,9 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[33,5,3,4,1,2]
-,		[34,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
-,		[35,29,30,31]
+		[38,5,3,4,1,2]
+,		[39,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
+,		[40,29,30,31]
 	],
 	[
 	[
@@ -16344,6 +16737,165 @@ cr.getProjectModel = function() { return [
 			],
 			[			]
 		]
+,		[
+			"SUCCES_LAYER",
+			4,
+			1074963276107602,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[0, 0, 0, 1920, 1080, 0, 0, 1, 0, 0, 0, 0, []],
+				33,
+				32,
+				[
+				],
+				[
+				[
+					0,
+					0.5,
+					2.8,
+					0.5,
+					0
+				]
+				],
+				[
+					1,
+					0
+				]
+			]
+,			[
+				[965, 633, 0, 235, 376, 0, 0, 1, 0.502128, 0.5, 0, 0, []],
+				34,
+				33,
+				[
+				],
+				[
+				[
+					0,
+					0.5,
+					2.8,
+					0.5,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"ERROR_LAYER",
+			5,
+			226360702185302,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[0, 0, 0, 1920, 1080, 0, 0, 1, 0, 0, 0, 0, []],
+				35,
+				34,
+				[
+				],
+				[
+				[
+					0,
+					0.5,
+					2.8,
+					0.5,
+					0
+				]
+				],
+				[
+					1,
+					0
+				]
+			]
+,			[
+				[956, 653, 0, 212, 378, 0, 0, 1, 0.5, 0.5, 0, 0, []],
+				36,
+				35,
+				[
+				],
+				[
+				[
+					0,
+					0.5,
+					2.8,
+					0.5,
+					0
+				]
+				],
+				[
+					1,
+					"Default",
+					0,
+					1
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"VIDEO_QUIZ_1",
+			6,
+			7119230260508162,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[0, 0, 0, 1920, 1080, 0, 0, 1, 0, 0, 0, 0, []],
+				37,
+				36,
+				[
+				],
+				[
+				],
+				[
+					"/sdcard/test.m4v",
+					"",
+					"",
+					"",
+					1,
+					1,
+					0,
+					0,
+					0,
+					""
+				]
+			]
+			],
+			[			]
+		]
 		],
 		[
 		],
@@ -16355,6 +16907,27 @@ cr.getProjectModel = function() { return [
 		"Event sheet 1",
 		[
 		[
+			1,
+			"usedCheats",
+			0,
+			0,
+false,false,5613150321030584,false
+		]
+,		[
+			1,
+			"currentAnswer",
+			1,
+			"",
+false,false,9214918672348811,false
+		]
+,		[
+			1,
+			"Quiz1Answer",
+			1,
+			"poohface",
+false,false,570597953588602,false
+		]
+,		[
 			1,
 			"activeQuiz",
 			0,
@@ -16414,29 +16987,6 @@ false,false,3240496362522863,false
 					[
 						2,
 						"12345"
-					]
-				]
-				]
-			]
-,			[
-				25,
-				cr.plugins_.WebStorage.prototype.acts.StoreLocal,
-				null,
-				3314872403254583,
-				false
-				,[
-				[
-					1,
-					[
-						2,
-						"Quiz1Answer"
-					]
-				]
-,				[
-					7,
-					[
-						2,
-						"poohface"
 					]
 				]
 				]
@@ -17273,7 +17823,7 @@ false,false,3240496362522863,false
 				false
 			]
 ,			[
-				33,
+				38,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement2",
 				7351923478391952,
@@ -17319,7 +17869,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				34,
+				39,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement",
 				3999778116893962,
@@ -17555,7 +18105,7 @@ false,false,3240496362522863,false
 			9721108542427753,
 			[
 			[
-				33,
+				38,
 				cr.plugins_.TiledBg.prototype.cnds.CompareY,
 				null,
 				0,
@@ -17581,7 +18131,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				33,
+				38,
 				cr.plugins_.TiledBg.prototype.acts.SetY,
 				null,
 				9348378923771939,
@@ -17597,14 +18147,14 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				33,
+				38,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement2",
 				565769501826665,
 				false
 			]
 ,			[
-				33,
+				38,
 				cr.plugins_.TiledBg.prototype.acts.Destroy,
 				null,
 				6465581429018932,
@@ -19653,7 +20203,7 @@ false,false,3240496362522863,false
 			5870558421094207,
 			[
 			[
-				34,
+				39,
 				cr.plugins_.Sprite.prototype.cnds.CompareY,
 				null,
 				0,
@@ -19679,7 +20229,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				34,
+				39,
 				cr.plugins_.Sprite.prototype.acts.SetY,
 				null,
 				8083470493807329,
@@ -19695,7 +20245,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				34,
+				39,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement",
 				8223027928572931,
@@ -19941,6 +20491,110 @@ false,false,3240496362522863,false
 				]
 				]
 			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				9126115211846435,
+				false
+				,[
+				[
+					11,
+					"usedCheats"
+				]
+,				[
+					7,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetBlur,
+				null,
+				3575474139815806,
+				false
+			]
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				7182296081694123,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					3020438811558962,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetText,
+					null,
+					9273147087326321,
+					false
+					,[
+					[
+						1,
+						[
+							23,
+							"Quiz1Answer"
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					5380139536633931,
+					false
+					,[
+					[
+						11,
+						"currentAnswer"
+					]
+,					[
+						7,
+						[
+							23,
+							"Quiz1Answer"
+						]
+					]
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -20025,6 +20679,356 @@ false,false,3240496362522863,false
 				]
 				]
 			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetBlur,
+				null,
+				372132668497802,
+				false
+			]
+			]
+			,[
+			[
+				0,
+				null,
+				false,
+				null,
+				8926330272263651,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					2420623172916939,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					6079236662596345,
+					false
+					,[
+					[
+						11,
+						"currentAnswer"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							23,
+							"Quiz1Answer"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetVisible,
+					null,
+					5040966829902446,
+					false
+					,[
+					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					33,
+					cr.behaviors.Fade.prototype.acts.StartFade,
+					"Fade",
+					8968088882085831,
+					false
+				]
+,				[
+					33,
+					cr.plugins_.TiledBg.prototype.acts.SetVisible,
+					null,
+					1611557454587421,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					34,
+					cr.behaviors.Fade.prototype.acts.StartFade,
+					"Fade",
+					7156748685178448,
+					false
+				]
+,				[
+					34,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					2604710537678358,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.Wait,
+					null,
+					3476575117957457,
+					false
+					,[
+					[
+						0,
+						[
+							1,
+							0.6
+						]
+					]
+					]
+				]
+,				[
+					34,
+					cr.plugins_.Sprite.prototype.acts.SetAnim,
+					null,
+					9054317635536487,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"Default"
+						]
+					]
+,					[
+						3,
+						1
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				2876117440180488,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					4670890569401489,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					8785648247414619,
+					false
+					,[
+					[
+						11,
+						"currentAnswer"
+					]
+,					[
+						8,
+						1
+					]
+,					[
+						7,
+						[
+							23,
+							"Quiz1Answer"
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetVisible,
+					null,
+					4158226942722509,
+					false
+					,[
+					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					35,
+					cr.behaviors.Fade.prototype.acts.StartFade,
+					"Fade",
+					4802335065508874,
+					false
+				]
+,				[
+					35,
+					cr.plugins_.TiledBg.prototype.acts.SetVisible,
+					null,
+					5193200615022453,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					36,
+					cr.behaviors.Fade.prototype.acts.StartFade,
+					"Fade",
+					3917933884439786,
+					false
+				]
+,				[
+					36,
+					cr.plugins_.Sprite.prototype.acts.SetVisible,
+					null,
+					318199617822162,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.Wait,
+					null,
+					3676624443912865,
+					false
+					,[
+					[
+						0,
+						[
+							1,
+							0.6
+						]
+					]
+					]
+				]
+,				[
+					36,
+					cr.plugins_.Sprite.prototype.acts.SetAnim,
+					null,
+					9327075631619429,
+					false
+					,[
+					[
+						1,
+						[
+							2,
+							"Default"
+						]
+					]
+,					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.Wait,
+					null,
+					5075082985541643,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							3
+						]
+					]
+					]
+				]
+,				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetVisible,
+					null,
+					2357704180813862,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+				]
+			]
 			]
 		]
 		]
@@ -20043,7 +21047,7 @@ false,false,3240496362522863,false
 	false,
 	0,
 	true,
-	32,
+	37,
 	false,
 	[
 	]

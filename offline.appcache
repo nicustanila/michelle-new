@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-#1384281991
+#1384283450
 index.html
 c2runtime.js
 jquery-2.0.0.min.js
@@ -39,6 +39,10 @@ images\cheatbutton-sheet1.png
 images\gobutton-sheet0.png
 images\gobutton-sheet1.png
 images\input_background-sheet0.png
+images\succes_popup.png
+images\poo_succes-sheet0.png
+images\error_popup.png
+images\poo_error-sheet0.png
 icon-16.png
 icon-32.png
 icon-114.png
