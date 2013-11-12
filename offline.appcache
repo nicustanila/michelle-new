@@ -1,5 +1,5 @@
 ﻿CACHE MANIFEST
-#1384208481
+#1384236461
 index.html
 c2runtime.js
 jquery-2.0.0.min.js
@@ -11,6 +11,12 @@ images\home_text_2.png
 images\home_instructions.png
 images\start-sheet0.png
 images\start-sheet1.png
+images\tiledbackground.png
+images\buton_home-sheet0.png
+images\buton_home-sheet1.png
+images\quiz1btn-sheet0.png
+images\quiz1btn-sheet1.png
+images\quiz1btn-sheet2.png
 icon-16.png
 icon-32.png
 icon-114.png
