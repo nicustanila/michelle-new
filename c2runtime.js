@@ -16237,6 +16237,85 @@ cr.getProjectModel = function() { return [
 	]
 ,	[
 		"t48",
+		cr.plugins_.Rex_Video,
+		false,
+		[],
+		0,
+		0,
+		null,
+		null,
+		[
+		],
+		false,
+		false,
+		1923769211150596,
+		[]
+	]
+,	[
+		"t49",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/quiz4heartleft.png", 45211, 0],
+		null,
+		[
+		[
+			"CustomMovement",
+			cr.behaviors.custom,
+			5448548585176073
+		]
+		],
+		false,
+		false,
+		5113228282911638,
+		[]
+	]
+,	[
+		"t50",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/quiz4heartright.png", 45212, 0],
+		null,
+		[
+		[
+			"CustomMovement",
+			cr.behaviors.custom,
+			3002855745736196
+		]
+		],
+		false,
+		false,
+		1958507337933197,
+		[]
+	]
+,	[
+		"t51",
+		cr.plugins_.TiledBg,
+		false,
+		[],
+		1,
+		0,
+		["images/quiz4text.png", 89630, 0],
+		null,
+		[
+		[
+			"CustomMovement",
+			cr.behaviors.custom,
+			3088180368979831
+		]
+		],
+		false,
+		false,
+		7615235074489937,
+		[]
+	]
+,	[
+		"t52",
 		cr.plugins_.TiledBg,
 		true,
 		[],
@@ -16257,7 +16336,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t49",
+		"t53",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -16278,7 +16357,7 @@ cr.getProjectModel = function() { return [
 		[]
 	]
 ,	[
-		"t50",
+		"t54",
 		cr.plugins_.Sprite,
 		true,
 		[],
@@ -16295,9 +16374,9 @@ cr.getProjectModel = function() { return [
 	]
 	],
 	[
-		[48,5,3,4,1,2]
-,		[49,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
-,		[50,29,30,31]
+		[52,5,3,4,1,2]
+,		[53,17,24,11,18,12,19,13,20,14,21,15,22,16,23]
+,		[54,29,30,31]
 	],
 	[
 	[
@@ -17153,8 +17232,80 @@ cr.getProjectModel = function() { return [
 			[			]
 		]
 ,		[
-			"SUCCES_LAYER",
+			"QUIZ_LAYER_4",
 			7,
+			1229038615549363,
+			true,
+			[255, 255, 255],
+			true,
+			1,
+			1,
+			1,
+			false,
+			1,
+			0,
+			0,
+			[
+			[
+				[-450, 104, 0, 240, 210, 0, 0, 1, 0, 0, 0, 0, []],
+				49,
+				49,
+				[
+				],
+				[
+				[
+					0,
+					5,
+					1
+				]
+				],
+				[
+					0,
+					0
+				]
+			]
+,			[
+				[2133, 104, 0, 240, 210, 0, 0, 1, 0, 0, 0, 0, []],
+				50,
+				50,
+				[
+				],
+				[
+				[
+					0,
+					5,
+					1
+				]
+				],
+				[
+					0,
+					0
+				]
+			]
+,			[
+				[335, -395, 0, 1248, 210, 0, 0, 1, 0, 0, 0, 0, []],
+				51,
+				51,
+				[
+				],
+				[
+				[
+					0,
+					5,
+					1
+				]
+				],
+				[
+					0,
+					0
+				]
+			]
+			],
+			[			]
+		]
+,		[
+			"SUCCES_LAYER",
+			8,
 			1074963276107602,
 			true,
 			[255, 255, 255],
@@ -17214,7 +17365,7 @@ cr.getProjectModel = function() { return [
 		]
 ,		[
 			"ERROR_LAYER",
-			8,
+			9,
 			226360702185302,
 			true,
 			[255, 255, 255],
@@ -17274,7 +17425,7 @@ cr.getProjectModel = function() { return [
 		]
 ,		[
 			"AFTER_VIDEO",
-			9,
+			10,
 			8182034188025201,
 			true,
 			[255, 255, 255],
@@ -17370,8 +17521,29 @@ cr.getProjectModel = function() { return [
 					"",
 					"",
 					0,
+					1,
 					0,
-					2,
+					0,
+					0,
+					""
+				]
+			]
+,			[
+				[0, 0, 0, 1920, 1080, 0, 0, 1, 0, 0, 0, 0, []],
+				48,
+				47,
+				[
+				],
+				[
+				],
+				[
+					"http://brandup.ro/colin30/test.mp4",
+					"",
+					"",
+					"",
+					0,
+					1,
+					0,
 					0,
 					0,
 					""
@@ -17391,6 +17563,27 @@ cr.getProjectModel = function() { return [
 		"Event sheet 1",
 		[
 		[
+			1,
+			"NextStepClicked",
+			0,
+			0,
+false,false,8024017329792779,false
+		]
+,		[
+			1,
+			"Quiz4Answer",
+			1,
+			"arthur",
+false,false,3416407477786035,false
+		]
+,		[
+			1,
+			"Quiz3Answer",
+			1,
+			"jasmine",
+false,false,981967396321171,false
+		]
+,		[
 			1,
 			"x",
 			0,
@@ -17636,6 +17829,19 @@ false,false,3240496362522863,false
 				cr.plugins_.Rex_Video.prototype.acts.SetVisible,
 				null,
 				515092597618099,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
+,			[
+				48,
+				cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+				null,
+				2762900752397372,
 				false
 				,[
 				[
@@ -18361,7 +18567,7 @@ false,false,3240496362522863,false
 				false
 			]
 ,			[
-				48,
+				52,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement2",
 				7351923478391952,
@@ -18407,7 +18613,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				49,
+				53,
 				cr.behaviors.custom.prototype.acts.SetSpeed,
 				"CustomMovement",
 				3999778116893962,
@@ -18646,7 +18852,7 @@ false,false,3240496362522863,false
 			9721108542427753,
 			[
 			[
-				48,
+				52,
 				cr.plugins_.TiledBg.prototype.cnds.CompareY,
 				null,
 				0,
@@ -18672,7 +18878,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				48,
+				52,
 				cr.plugins_.TiledBg.prototype.acts.SetY,
 				null,
 				9348378923771939,
@@ -18688,14 +18894,14 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				48,
+				52,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement2",
 				565769501826665,
 				false
 			]
 ,			[
-				48,
+				52,
 				cr.plugins_.TiledBg.prototype.acts.Destroy,
 				null,
 				6465581429018932,
@@ -20744,7 +20950,7 @@ false,false,3240496362522863,false
 			5870558421094207,
 			[
 			[
-				49,
+				53,
 				cr.plugins_.Sprite.prototype.cnds.CompareY,
 				null,
 				0,
@@ -20770,7 +20976,7 @@ false,false,3240496362522863,false
 			],
 			[
 			[
-				49,
+				53,
 				cr.plugins_.Sprite.prototype.acts.SetY,
 				null,
 				8083470493807329,
@@ -20786,7 +20992,7 @@ false,false,3240496362522863,false
 				]
 			]
 ,			[
-				49,
+				53,
 				cr.behaviors.custom.prototype.acts.Stop,
 				"CustomMovement",
 				8223027928572931,
@@ -21211,6 +21417,156 @@ false,false,3240496362522863,false
 				]
 				]
 			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				5476675036029359,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					9194655027187035,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							3
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetText,
+					null,
+					4882591514350309,
+					false
+					,[
+					[
+						1,
+						[
+							23,
+							"Quiz3Answer"
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					5938524524186825,
+					false
+					,[
+					[
+						11,
+						"currentAnswer"
+					]
+,					[
+						7,
+						[
+							23,
+							"Quiz3Answer"
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				1450726648239779,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					3021333492520844,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							4
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					32,
+					cr.plugins_.TextBox.prototype.acts.SetText,
+					null,
+					4406314262213146,
+					false
+					,[
+					[
+						1,
+						[
+							23,
+							"Quiz4Answer"
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1759662044785753,
+					false
+					,[
+					[
+						11,
+						"currentAnswer"
+					]
+,					[
+						7,
+						[
+							23,
+							"Quiz4Answer"
+						]
+					]
+					]
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -21319,34 +21675,6 @@ false,false,3240496362522863,false
 					false,
 					false,
 					false,
-					2420623172916939,
-					false
-					,[
-					[
-						11,
-						"activeQuiz"
-					]
-,					[
-						8,
-						0
-					]
-,					[
-						7,
-						[
-							0,
-							1
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.cnds.CompareVar,
-					null,
-					0,
-					false,
-					false,
-					false,
 					6079236662596345,
 					false
 					,[
@@ -21362,7 +21690,7 @@ false,false,3240496362522863,false
 						7,
 						[
 							23,
-							"Quiz1Answer"
+							"currentQuizAnswer"
 						]
 					]
 					]
@@ -21459,55 +21787,6 @@ false,false,3240496362522863,false
 					]
 				]
 ,				[
-					-1,
-					cr.system_object.prototype.acts.Wait,
-					null,
-					3162413002621551,
-					false
-					,[
-					[
-						0,
-						[
-							1,
-							2.85
-						]
-					]
-					]
-				]
-,				[
-					37,
-					cr.plugins_.Rex_Video.prototype.acts.SetVisible,
-					null,
-					6670041381642184,
-					false
-					,[
-					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					37,
-					cr.plugins_.Rex_Video.prototype.acts.SetAutoplay,
-					null,
-					8496188783124169,
-					false
-					,[
-					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					37,
-					cr.plugins_.Rex_Video.prototype.acts.Play,
-					null,
-					9093315181461109,
-					false
-				]
-,				[
 					32,
 					cr.plugins_.TextBox.prototype.acts.SetText,
 					null,
@@ -21524,223 +21803,268 @@ false,false,3240496362522863,false
 					]
 				]
 				]
-			]
-,			[
-				0,
-				null,
-				false,
-				null,
-				1491340783441491,
+				,[
 				[
-				[
-					-1,
-					cr.system_object.prototype.cnds.CompareVar,
-					null,
 					0,
+					null,
 					false,
-					false,
-					false,
-					6649812650188573,
-					false
-					,[
+					null,
+					3317368333243648,
 					[
-						11,
-						"activeQuiz"
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
+						0,
+						false,
+						false,
+						false,
+						8170012683893359,
+						false
+						,[
+						[
+							11,
+							"activeQuiz"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								0,
+								1
+							]
+						]
+						]
 					]
-,					[
-						8,
-						0
-					]
-,					[
-						7,
+					],
+					[
+					[
+						-1,
+						cr.system_object.prototype.acts.Wait,
+						null,
+						7965707978253088,
+						false
+						,[
 						[
 							0,
-							2
+							[
+								1,
+								3.45
+							]
 						]
+						]
+					]
+,					[
+						37,
+						cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+						null,
+						6670041381642184,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						37,
+						cr.plugins_.Rex_Video.prototype.acts.SetAutoplay,
+						null,
+						8496188783124169,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						37,
+						cr.plugins_.Rex_Video.prototype.acts.Play,
+						null,
+						9093315181461109,
+						false
 					]
 					]
 				]
 ,				[
-					-1,
-					cr.system_object.prototype.cnds.CompareVar,
-					null,
 					0,
+					null,
 					false,
-					false,
-					false,
-					5246856379248085,
-					false
-					,[
-					[
-						11,
-						"currentAnswer"
-					]
-,					[
-						8,
-						0
-					]
-,					[
-						7,
-						[
-							23,
-							"Quiz2Answer"
-						]
-					]
-					]
-				]
-				],
-				[
-				[
-					32,
-					cr.plugins_.TextBox.prototype.acts.SetVisible,
 					null,
-					8142597409127904,
-					false
-					,[
+					9093404468142076,
 					[
-						3,
-						0
-					]
-					]
-				]
-,				[
-					33,
-					cr.behaviors.Fade.prototype.acts.StartFade,
-					"Fade",
-					4721973521923259,
-					false
-				]
-,				[
-					33,
-					cr.plugins_.TiledBg.prototype.acts.SetVisible,
-					null,
-					289016938949275,
-					false
-					,[
 					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					34,
-					cr.behaviors.Fade.prototype.acts.StartFade,
-					"Fade",
-					5595686615405662,
-					false
-				]
-,				[
-					34,
-					cr.plugins_.Sprite.prototype.acts.SetVisible,
-					null,
-					7556579080019535,
-					false
-					,[
-					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.Wait,
-					null,
-					8763243701387222,
-					false
-					,[
-					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
 						0,
+						false,
+						false,
+						false,
+						19365319787468,
+						false
+						,[
 						[
-							1,
-							0.6
+							11,
+							"activeQuiz"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								0,
+								2
+							]
+						]
 						]
 					]
-					]
-				]
-,				[
-					34,
-					cr.plugins_.Sprite.prototype.acts.SetAnim,
-					null,
-					4450247080747658,
-					false
-					,[
+					],
 					[
-						1,
+					[
+						-1,
+						cr.system_object.prototype.acts.Wait,
+						null,
+						4112975984595615,
+						false
+						,[
 						[
-							2,
-							"Default"
+							0,
+							[
+								1,
+								3.45
+							]
+						]
 						]
 					]
 ,					[
-						3,
-						1
+						44,
+						cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+						null,
+						7716824584408692,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						44,
+						cr.plugins_.Rex_Video.prototype.acts.SetAutoplay,
+						null,
+						3905776239127475,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						44,
+						cr.plugins_.Rex_Video.prototype.acts.Play,
+						null,
+						5299419389823274,
+						false
 					]
 					]
 				]
 ,				[
-					-1,
-					cr.system_object.prototype.acts.Wait,
+					0,
 					null,
-					1022594074104747,
-					false
-					,[
+					false,
+					null,
+					3731037602995709,
 					[
+					[
+						-1,
+						cr.system_object.prototype.cnds.CompareVar,
+						null,
 						0,
+						false,
+						false,
+						false,
+						3239477865875754,
+						false
+						,[
 						[
-							1,
-							2.85
+							11,
+							"activeQuiz"
+						]
+,						[
+							8,
+							0
+						]
+,						[
+							7,
+							[
+								0,
+								3
+							]
+						]
 						]
 					]
-					]
-				]
-,				[
-					44,
-					cr.plugins_.Rex_Video.prototype.acts.SetVisible,
-					null,
-					7716824584408692,
-					false
-					,[
+					],
 					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					44,
-					cr.plugins_.Rex_Video.prototype.acts.SetAutoplay,
-					null,
-					3905776239127475,
-					false
-					,[
 					[
-						3,
-						1
-					]
-					]
-				]
-,				[
-					44,
-					cr.plugins_.Rex_Video.prototype.acts.Play,
-					null,
-					5299419389823274,
-					false
-				]
-,				[
-					32,
-					cr.plugins_.TextBox.prototype.acts.SetText,
-					null,
-					4182459864769135,
-					false
-					,[
-					[
-						1,
+						-1,
+						cr.system_object.prototype.acts.Wait,
+						null,
+						1290611275813417,
+						false
+						,[
 						[
-							2,
-							""
+							0,
+							[
+								1,
+								3.45
+							]
 						]
+						]
+					]
+,					[
+						48,
+						cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+						null,
+						7231620611828178,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						48,
+						cr.plugins_.Rex_Video.prototype.acts.SetAutoplay,
+						null,
+						2779879135502573,
+						false
+						,[
+						[
+							3,
+							1
+						]
+						]
+					]
+,					[
+						48,
+						cr.plugins_.Rex_Video.prototype.acts.Play,
+						null,
+						1418657235888356,
+						false
 					]
 					]
 				]
@@ -22147,6 +22471,102 @@ false,false,3240496362522863,false
 			null,
 			false,
 			null,
+			2794775316400253,
+			[
+			[
+				48,
+				cr.plugins_.Rex_Video.prototype.cnds.OnEnded,
+				null,
+				1,
+				false,
+				false,
+				false,
+				8805728891057952,
+				false
+			]
+			],
+			[
+			[
+				40,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				9468630107999337,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1284
+					]
+				]
+				]
+			]
+,			[
+				39,
+				cr.plugins_.Sprite.prototype.acts.SetX,
+				null,
+				1599326630479724,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						670
+					]
+				]
+				]
+			]
+,			[
+				48,
+				cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+				null,
+				5932259646131899,
+				false
+				,[
+				[
+					3,
+					0
+				]
+				]
+			]
+,			[
+				38,
+				cr.plugins_.TiledBg.prototype.acts.SetVisible,
+				null,
+				3578830773267848,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				38,
+				cr.plugins_.TiledBg.prototype.acts.SetOpacity,
+				null,
+				435534100096467,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						100
+					]
+				]
+				]
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			4864644609293857,
 			[
 			[
@@ -22402,6 +22822,94 @@ false,false,3240496362522863,false
 				]
 				]
 			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				7488272675036709,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					8942912884299814,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							3
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					38,
+					cr.plugins_.TiledBg.prototype.acts.SetVisible,
+					null,
+					1206453124603942,
+					false
+					,[
+					[
+						3,
+						0
+					]
+					]
+				]
+,				[
+					48,
+					cr.plugins_.Rex_Video.prototype.acts.Seek,
+					null,
+					3682853656685347,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+,				[
+					48,
+					cr.plugins_.Rex_Video.prototype.acts.SetVisible,
+					null,
+					209122615429658,
+					false
+					,[
+					[
+						3,
+						1
+					]
+					]
+				]
+,				[
+					48,
+					cr.plugins_.Rex_Video.prototype.acts.Play,
+					null,
+					1496067598615838,
+					false
+				]
+				]
+			]
 			]
 		]
 ,		[
@@ -22563,6 +23071,75 @@ false,false,3240496362522863,false
 				]
 				]
 			]
+,			[
+				32,
+				cr.plugins_.TextBox.prototype.acts.SetVisible,
+				null,
+				4581119931936088,
+				false
+				,[
+				[
+					3,
+					1
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				4975274898781911,
+				false
+				,[
+				[
+					11,
+					"currentAnswer"
+				]
+,				[
+					7,
+					[
+						2,
+						""
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.Wait,
+				null,
+				9970330930599274,
+				false
+				,[
+				[
+					0,
+					[
+						1,
+						1
+					]
+				]
+				]
+			]
+,			[
+				-1,
+				cr.system_object.prototype.acts.SetVar,
+				null,
+				2757819562016024,
+				false
+				,[
+				[
+					11,
+					"NextStepClicked"
+				]
+,				[
+					7,
+					[
+						0,
+						1
+					]
+				]
+				]
+			]
 			]
 			,[
 			[
@@ -22600,9 +23177,77 @@ false,false,3240496362522863,false
 					]
 					]
 				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					962182917755636,
+					false
+					,[
+					[
+						11,
+						"NextStepClicked"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
 				],
 				[
 				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					1879862606576915,
+					false
+					,[
+					[
+						11,
+						"NextStepClicked"
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					3012750023260762,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						7,
+						[
+							0,
+							2
+						]
+					]
+					]
+				]
+,				[
 					12,
 					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
 					null,
@@ -22663,19 +23308,6 @@ false,false,3240496362522863,false
 							0,
 							2
 						]
-					]
-					]
-				]
-,				[
-					32,
-					cr.plugins_.TextBox.prototype.acts.SetVisible,
-					null,
-					4581119931936088,
-					false
-					,[
-					[
-						3,
-						1
 					]
 					]
 				]
@@ -22844,46 +23476,6 @@ false,false,3240496362522863,false
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
-					3012750023260762,
-					false
-					,[
-					[
-						11,
-						"activeQuiz"
-					]
-,					[
-						7,
-						[
-							0,
-							2
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
-					4975274898781911,
-					false
-					,[
-					[
-						11,
-						"currentAnswer"
-					]
-,					[
-						7,
-						[
-							2,
-							""
-						]
-					]
-					]
-				]
-,				[
-					-1,
-					cr.system_object.prototype.acts.SetVar,
-					null,
 					6715087210617693,
 					false
 					,[
@@ -22937,9 +23529,77 @@ false,false,3240496362522863,false
 					]
 					]
 				]
+,				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					9936086014608734,
+					false
+					,[
+					[
+						11,
+						"NextStepClicked"
+					]
+,					[
+						8,
+						0
+					]
+,					[
+						7,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
 				],
 				[
 				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					4282745735636687,
+					false
+					,[
+					[
+						11,
+						"NextStepClicked"
+					]
+,					[
+						7,
+						[
+							0,
+							0
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					5865032950104533,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						7,
+						[
+							0,
+							3
+						]
+					]
+					]
+				]
+,				[
 					13,
 					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
 					null,
@@ -23000,19 +23660,6 @@ false,false,3240496362522863,false
 							0,
 							2
 						]
-					]
-					]
-				]
-,				[
-					32,
-					cr.plugins_.TextBox.prototype.acts.SetVisible,
-					null,
-					6761132313009633,
-					false
-					,[
-					[
-						3,
-						1
 					]
 					]
 				]
@@ -23181,12 +23828,49 @@ false,false,3240496362522863,false
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
-					2982699494036687,
+					1244429879492799,
+					false
+					,[
+					[
+						11,
+						"currentQuizAnswer"
+					]
+,					[
+						7,
+						[
+							23,
+							"Quiz3Answer"
+						]
+					]
+					]
+				]
+				]
+			]
+,			[
+				0,
+				null,
+				false,
+				null,
+				5071577741541584,
+				[
+				[
+					-1,
+					cr.system_object.prototype.cnds.CompareVar,
+					null,
+					0,
+					false,
+					false,
+					false,
+					1505360796797598,
 					false
 					,[
 					[
 						11,
 						"activeQuiz"
+					]
+,					[
+						8,
+						0
 					]
 ,					[
 						7,
@@ -23199,20 +23883,50 @@ false,false,3240496362522863,false
 				]
 ,				[
 					-1,
-					cr.system_object.prototype.acts.SetVar,
+					cr.system_object.prototype.cnds.CompareVar,
 					null,
-					3053384355316205,
+					0,
+					false,
+					false,
+					false,
+					2993048177824747,
 					false
 					,[
 					[
 						11,
-						"currentAnswer"
+						"NextStepClicked"
+					]
+,					[
+						8,
+						0
 					]
 ,					[
 						7,
 						[
-							2,
-							""
+							0,
+							1
+						]
+					]
+					]
+				]
+				],
+				[
+				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					3288425999381544,
+					false
+					,[
+					[
+						11,
+						"NextStepClicked"
+					]
+,					[
+						7,
+						[
+							0,
+							0
 						]
 					]
 					]
@@ -23221,7 +23935,252 @@ false,false,3240496362522863,false
 					-1,
 					cr.system_object.prototype.acts.SetVar,
 					null,
-					1244429879492799,
+					5806733752575132,
+					false
+					,[
+					[
+						11,
+						"activeQuiz"
+					]
+,					[
+						7,
+						[
+							0,
+							4
+						]
+					]
+					]
+				]
+,				[
+					14,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					252535616722301,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+,				[
+					21,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					1488806903111583,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							1
+						]
+					]
+					]
+				]
+,				[
+					15,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					3118352605197456,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							2
+						]
+					]
+					]
+				]
+,				[
+					22,
+					cr.plugins_.Sprite.prototype.acts.SetAnimFrame,
+					null,
+					6764266317118892,
+					false
+					,[
+					[
+						0,
+						[
+							0,
+							2
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.Wait,
+					null,
+					3632821065037788,
+					false
+					,[
+					[
+						0,
+						[
+							1,
+							0.5
+						]
+					]
+					]
+				]
+,				[
+					47,
+					cr.behaviors.custom.prototype.acts.SetSpeed,
+					"CustomMovement",
+					268210036212262,
+					false
+					,[
+					[
+						3,
+						2
+					]
+,					[
+						0,
+						[
+							3,
+							[
+								23,
+								"QuizScrollSpeed"
+							]
+						]
+					]
+					]
+				]
+,				[
+					45,
+					cr.behaviors.custom.prototype.acts.SetSpeed,
+					"CustomMovement",
+					1115481433679739,
+					false
+					,[
+					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							3,
+							[
+								23,
+								"QuizScrollSpeed"
+							]
+						]
+					]
+					]
+				]
+,				[
+					46,
+					cr.behaviors.custom.prototype.acts.SetSpeed,
+					"CustomMovement",
+					3240443794579793,
+					false
+					,[
+					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							23,
+							"QuizScrollSpeed"
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.Wait,
+					null,
+					4179701592394326,
+					false
+					,[
+					[
+						0,
+						[
+							1,
+							0.5
+						]
+					]
+					]
+				]
+,				[
+					51,
+					cr.behaviors.custom.prototype.acts.SetSpeed,
+					"CustomMovement",
+					4930940108371467,
+					false
+					,[
+					[
+						3,
+						2
+					]
+,					[
+						0,
+						[
+							23,
+							"QuizScrollSpeed"
+						]
+					]
+					]
+				]
+,				[
+					49,
+					cr.behaviors.custom.prototype.acts.SetSpeed,
+					"CustomMovement",
+					7276136993267362,
+					false
+					,[
+					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							23,
+							"QuizScrollSpeed"
+						]
+					]
+					]
+				]
+,				[
+					50,
+					cr.behaviors.custom.prototype.acts.SetSpeed,
+					"CustomMovement",
+					801144855220037,
+					false
+					,[
+					[
+						3,
+						1
+					]
+,					[
+						0,
+						[
+							3,
+							[
+								23,
+								"QuizScrollSpeed"
+							]
+						]
+					]
+					]
+				]
+,				[
+					-1,
+					cr.system_object.prototype.acts.SetVar,
+					null,
+					7480192621092519,
 					false
 					,[
 					[
@@ -23232,7 +24191,7 @@ false,false,3240496362522863,false
 						7,
 						[
 							23,
-							"Quiz2Answer"
+							"Quiz4Answer"
 						]
 					]
 					]
@@ -24058,6 +25017,180 @@ false,false,3240496362522863,false
 			null,
 			false,
 			null,
+			7346474861376721,
+			[
+			[
+				51,
+				cr.plugins_.TiledBg.prototype.cnds.CompareY,
+				null,
+				0,
+				false,
+				false,
+				false,
+				322688225034873,
+				false
+				,[
+				[
+					8,
+					5
+				]
+,				[
+					0,
+					[
+						0,
+						105
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				51,
+				cr.plugins_.TiledBg.prototype.acts.SetY,
+				null,
+				4116766394505522,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						105
+					]
+				]
+				]
+			]
+,			[
+				51,
+				cr.behaviors.custom.prototype.acts.Stop,
+				"CustomMovement",
+				6064561485021161,
+				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			5215648005014694,
+			[
+			[
+				49,
+				cr.plugins_.TiledBg.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				false,
+				false,
+				488770695895969,
+				false
+				,[
+				[
+					8,
+					5
+				]
+,				[
+					0,
+					[
+						0,
+						50
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				49,
+				cr.plugins_.TiledBg.prototype.acts.SetX,
+				null,
+				796024468777272,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						50
+					]
+				]
+				]
+			]
+,			[
+				49,
+				cr.behaviors.custom.prototype.acts.Stop,
+				"CustomMovement",
+				9056614560484077,
+				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			6317581490803581,
+			[
+			[
+				50,
+				cr.plugins_.TiledBg.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				false,
+				false,
+				309884955961729,
+				false
+				,[
+				[
+					8,
+					3
+				]
+,				[
+					0,
+					[
+						0,
+						1633
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				50,
+				cr.plugins_.TiledBg.prototype.acts.SetX,
+				null,
+				4765392310600505,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						1633
+					]
+				]
+				]
+			]
+,			[
+				50,
+				cr.behaviors.custom.prototype.acts.Stop,
+				"CustomMovement",
+				1370073398594477,
+				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
 			3629431746697716,
 			[
 			[
@@ -24111,6 +25244,180 @@ false,false,3240496362522863,false
 			]
 			]
 		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			900032466387684,
+			[
+			[
+				47,
+				cr.plugins_.TiledBg.prototype.cnds.CompareY,
+				null,
+				0,
+				false,
+				false,
+				false,
+				1915228832347582,
+				false
+				,[
+				[
+					8,
+					3
+				]
+,				[
+					0,
+					[
+						0,
+						-395
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				47,
+				cr.plugins_.TiledBg.prototype.acts.SetY,
+				null,
+				738650427695561,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						-395
+					]
+				]
+				]
+			]
+,			[
+				47,
+				cr.behaviors.custom.prototype.acts.Stop,
+				"CustomMovement",
+				3336339216851246,
+				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			7083716774083106,
+			[
+			[
+				45,
+				cr.plugins_.TiledBg.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				false,
+				false,
+				9316987797923089,
+				false
+				,[
+				[
+					8,
+					3
+				]
+,				[
+					0,
+					[
+						0,
+						-450
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				45,
+				cr.plugins_.TiledBg.prototype.acts.SetX,
+				null,
+				6124111633023503,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						-450
+					]
+				]
+				]
+			]
+,			[
+				45,
+				cr.behaviors.custom.prototype.acts.Stop,
+				"CustomMovement",
+				4667403612181061,
+				false
+			]
+			]
+		]
+,		[
+			0,
+			null,
+			false,
+			null,
+			6619406309780654,
+			[
+			[
+				46,
+				cr.plugins_.TiledBg.prototype.cnds.CompareX,
+				null,
+				0,
+				false,
+				false,
+				false,
+				4277126804533834,
+				false
+				,[
+				[
+					8,
+					5
+				]
+,				[
+					0,
+					[
+						0,
+						2133
+					]
+				]
+				]
+			]
+			],
+			[
+			[
+				46,
+				cr.plugins_.TiledBg.prototype.acts.SetX,
+				null,
+				5680728604474091,
+				false
+				,[
+				[
+					0,
+					[
+						0,
+						2133
+					]
+				]
+				]
+			]
+,			[
+				46,
+				cr.behaviors.custom.prototype.acts.Stop,
+				"CustomMovement",
+				6995854490542968,
+				false
+			]
+			]
+		]
 		]
 	]
 	],
@@ -24127,7 +25434,7 @@ false,false,3240496362522863,false
 	false,
 	0,
 	true,
-	47,
+	52,
 	false,
 	[
 	]
